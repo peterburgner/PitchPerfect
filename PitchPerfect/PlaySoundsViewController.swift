@@ -65,8 +65,10 @@ class PlaySoundsViewController: UIViewController {
         super.viewDidLoad()
         setupAudio()
         self.navigationItem.title = "Choose Playback Effect"
-
-        // Do any additional setup after loading the view.
+        // elegant way to set contentMode for button (left in approach in Storyboard in addition to be able to review later)
+        for button:UIButton in [slowButton, fastButton, highPitchButton, lowPitchButton, echoButton, reverbButton] {
+            button.imageView?.contentMode = .scaleAspectFit
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

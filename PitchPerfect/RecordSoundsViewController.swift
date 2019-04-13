@@ -14,7 +14,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
    // MARK: class variables
     var audioRecorder: AVAudioRecorder!
-    enum RecordingState {case startRecording, resetRecording}
+    var isRecording: Bool = false
 
     // MARK: IBOutlets
     @IBOutlet weak var recordLabel: UILabel!
@@ -24,17 +24,13 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     // MARK: view functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI(.resetRecording)
+        configureUIAsRecording(false)
         self.navigationItem.title = "Record"
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
 
     // MARK: recording functions
     @IBAction func recordAction(_ sender: Any) {
-        configureUI(.startRecording)
+        configureUIAsRecording(true)
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
@@ -52,7 +48,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     @IBAction func stopRecording(_ sender: Any) {
-        configureUI(.resetRecording)
+        configureUIAsRecording(false)
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
@@ -75,18 +71,11 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    // MARK: UI functions
-    func configureUI(_ recordingState: RecordingState) {
-        switch(recordingState) {
-        case .startRecording:
-            recordButton.isEnabled = false
-            stopRecordingButton.isEnabled = true
-            recordLabel.text = "Recording in Progress"
-        case .resetRecording:
-            recordButton.isEnabled = true
-            stopRecordingButton.isEnabled = false
-            recordLabel.text = "Tap to Record"
-        }
+    // Mark: UI functions
+    func configureUIAsRecording(_ isRecording:Bool) {
+        recordButton.isEnabled = !isRecording
+        stopRecordingButton.isEnabled = isRecording
+        recordLabel.text = isRecording ? "Recording in Progres" : "Tap to Record"
     }
     
 }
