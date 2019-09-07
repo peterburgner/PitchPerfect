@@ -1,6 +1,6 @@
 # PitchPerfect
 
-Record your voice and play it back with various effects
+Record your voice and play it back with fun audio effects
 
 ## Effects modes
 - [x] Snail: Slow down your voice
